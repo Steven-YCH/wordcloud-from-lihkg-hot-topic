@@ -3,7 +3,7 @@ Generate wordcloud from lihkg hot topic
 
 I am a new-learner of python & this is my first project aim to practice my skill in python.
 
-Lihkg is a popular forum in Hong Kong, these python code attempted to scrap lihkg hot topic & create wordcloud base on them.
+Lihkg is a popular forum in Hong Kong, these python code attempted to scrape lihkg hot topic & create wordcloud base on them.
 
 Below library in python is involved
 - sqlite3 (used for storing lihkg data)
@@ -13,7 +13,7 @@ Below library in python is involved
 font "kaiu.ttf" is also involved to correctly show chinese in word cloud
 
 lihkgspider.py
-- run to scrap lihkg & store in sqlite3
+- run to scrape lihkg & store in sqlite3
 
 analysekeyword.py
 - run to create wordcloud from all topics stored in lihkg.sqlite which created by lihkgspider.py
