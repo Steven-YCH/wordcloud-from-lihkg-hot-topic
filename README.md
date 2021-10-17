@@ -1,4 +1,4 @@
-# wordcloud_of_lihkg_hottopic
+# wordcloud of lihkg hot topic
 Generate wordcloud from lihkg hot topic
 
 I am a new-learner of python & this is my first project aim to practice my skill in python.
