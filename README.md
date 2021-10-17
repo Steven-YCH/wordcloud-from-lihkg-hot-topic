@@ -1,7 +1,7 @@
 # wordcloud_of_lihkg_hottopic
 Generate wordcloud from lihkg hot topic
 
-I am a new-learner of python & this is my first project aim to practice.
+I am a new-learner of python & this is my first project aim to practice my skill in python.
 
 Lihkg is a popular forum in Hong Kong, these python code attempted to scrap lihkg hot topic & create wordcloud base on them.
 
@@ -26,4 +26,5 @@ revising_exceptdict.py
 - you can exclude specific words by running this program
 
 Sample of output
+
 ![test](https://user-images.githubusercontent.com/85422707/137614391-d0610115-c884-404b-9562-30cae9115b24.png)
