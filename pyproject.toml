@@ -1,0 +1,48 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "lihkg-hot-topic"
+version = "0.2.0"
+description = "Scrape LIHKG hot topics and generate Chinese word clouds"
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.10"
+authors = [{ name = "Steven-YCH" }]
+keywords = ["lihkg", "wordcloud", "jieba", "hong-kong", "scraping"]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Environment :: Console",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Text Processing :: Linguistic",
+]
+dependencies = [
+  "requests>=2.31",
+  "jieba>=0.42",
+  "wordcloud>=1.9",
+  "Pillow>=10.0",
+  "numpy>=1.24",
+]
+
+[project.optional-dependencies]
+cloudflare = ["cloudscraper>=1.2"]
+dev = ["pytest>=7.4"]
+
+[project.scripts]
+lihkg-hot = "lihkg_hot.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/Steven-YCH/wordcloud-from-lihkg-hot-topic"
+Repository = "https://github.com/Steven-YCH/wordcloud-from-lihkg-hot-topic"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]

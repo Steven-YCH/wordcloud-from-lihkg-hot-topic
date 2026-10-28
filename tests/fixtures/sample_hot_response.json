@@ -1,0 +1,35 @@
+{
+  "success": 1,
+  "server_time": 1700000000,
+  "response": {
+    "items": [
+      {
+        "thread_id": 1001,
+        "title": "今日天氣好熱，有冇人去行山？",
+        "no_of_reply": 120,
+        "no_of_uni_user_reply": 80,
+        "like_count": 200,
+        "dislike_count": 5,
+        "category": {"cat_id": 1, "name": "吹水台", "order": "hot"}
+      },
+      {
+        "id": 1002,
+        "title": "難忍 唔會再買呢間公司",
+        "no_of_reply": "45",
+        "no_of_uni_user_reply": "30",
+        "like_count": "60",
+        "dislike_count": "2",
+        "category": {"cat_id": 2, "name": "時事台"}
+      },
+      {
+        "thread_id": 1003,
+        "title": "",
+        "no_of_reply": 1,
+        "no_of_uni_user_reply": 1,
+        "like_count": 0,
+        "dislike_count": 0,
+        "category": {"name": "ignore-me"}
+      }
+    ]
+  }
+}
