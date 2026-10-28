@@ -2,27 +2,19 @@
 
 [![CI](https://github.com/Steven-YCH/wordcloud-from-lihkg-hot-topic/actions/workflows/ci.yml/badge.svg)](https://github.com/Steven-YCH/wordcloud-from-lihkg-hot-topic/actions/workflows/ci.yml)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/downloads/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-
-Portfolio rewrite of a first-project scraper that turns **LIHKG daily hot threads** into a **Chinese/Cantonese word cloud**.
-
-LIHKG is a popular Hong Kong forum. Thread titles are dense with slang, mixed Chinese/English, and reaction culture — a natural corpus for lightweight NLP demos (tokenization, stopwords, visualization) without needing full post bodies.
+Scrape LIHKG daily hot threads and turn the titles into a Chinese/Cantonese word cloud.
 
 ![Sample word cloud](https://user-images.githubusercontent.com/85422707/137614391-d0610115-c884-404b-9562-30cae9115b24.png)
 
-## Problem statement
+## Pipeline
 
-Forum “hot” lists change constantly. Manually skimming titles does not show which themes dominate. This project:
+1. Pull hot-thread JSON from LIHKG (`/api_v2/thread/hot`)
+2. Store results in **SQLite** and **JSONL**
+3. Tokenize titles with **jieba** plus a small custom user dictionary / stopword list
+4. Render a masked word cloud (auto-detects a CJK font)
 
-1. Pulls the public hot-thread JSON API with polite retries
-2. Stores results in **SQLite** (queryable) and **JSONL** (portable)
-3. Tokenizes titles with **jieba** + a small custom user dictionary / stopword list
-4. Renders a masked word cloud with an auto-detected CJK font
-
-## Architecture
-
-```
+```text
 lihkg.com API ──► client.py (requests → optional cloudscraper)
                       │
                       ▼
@@ -35,9 +27,7 @@ lihkg.com API ──► client.py (requests → optional cloudscraper)
             wordcloud_gen.py ──► outputs/wordcloud.png
 ```
 
-CLI entry point: `lihkg-hot` (`src/lihkg_hot/cli.py`).
-
-Legacy flat scripts live under `archive/legacy/` for reference. The huge vendored `jieba/dict.txt` is **removed** — the pip `jieba` package supplies the default dictionary; only `assets/user_dict.txt` and `assets/stopwords.txt` are customized.
+CLI: `lihkg-hot`
 
 ## Install
 
@@ -52,12 +42,11 @@ python -m venv .venv
 pip install -e ".[dev]"
 # Optional Cloudflare helper:
 pip install -e ".[cloudflare]"
-# Or: pip install -r requirements.txt && pip install -e .
 ```
 
-### Fonts (important for Chinese glyphs)
+### Fonts
 
-Word clouds need a TrueType/OpenType font that covers CJK. The tool auto-detects common fonts:
+Word clouds need a font that covers CJK glyphs. Common fonts are detected automatically:
 
 | OS | Tried first |
 |----|-------------|
@@ -65,7 +54,7 @@ Word clouds need a TrueType/OpenType font that covers CJK. The tool auto-detects
 | macOS | PingFang, STHeiti, Hiragino Sans GB, … |
 | Linux | Noto Sans CJK, WenQuanYi, AR PL UMing, … |
 
-Overrides:
+Override if needed:
 
 ```bash
 lihkg-hot wordcloud --font "C:\Windows\Fonts\msjh.ttc"
@@ -93,45 +82,36 @@ Writes:
 lihkg-hot wordcloud --db data/lihkg.sqlite --mask assets/mask.png --out outputs/wordcloud.png
 ```
 
-### Dictionary helpers (non-interactive)
+### Dictionary helpers
 
 ```bash
 lihkg-hot add-user-word 難頂
 lihkg-hot add-stopword 的
 ```
 
-### Smoke / offline checks
+### Tests
 
 ```bash
-pip install -e ".[dev]"
 pytest
 ```
 
-Live scrape (may fail behind Cloudflare or network policy):
+Live scrape may fail if Cloudflare challenges the request. Fixture tests still cover parsing and storage. You can also seed SQLite from `tests/fixtures/sample_hot_response.json` for a local word-cloud dry run. Optional helper:
 
 ```bash
+pip install -e ".[cloudflare]"
 lihkg-hot scrape --pages 1 --count 10 -v
 ```
 
-If the live endpoint is blocked (e.g. TCP reset / Cloudflare challenge), fixture-based unit tests still validate parsing and storage. You can also seed SQLite from `tests/fixtures/sample_hot_response.json` for a local word-cloud dry run. Re-run scrape when you have network access that can reach `lihkg.com`.
-
-## Ethics & responsible use
-
-- Intended for **personal / educational / portfolio** exploration of public list data.
-- Do **not** hammer the API. Default settings fetch a small page count with exponential backoff.
-- Respect LIHKG terms of service and local law. Do not republish scraped content at scale or use it for harassment, spam, or commercial redistribution without permission.
-- Titles can contain offensive language; treat outputs accordingly.
-
 ## Limitations
 
-- LIHKG sits behind **Cloudflare**; plain `requests` may get challenged. Install `cloudscraper` (`pip install -e ".[cloudflare]"`) for a best-effort fallback — it is not guaranteed forever.
-- Tokenization is title-only (not full threads), so slang and multi-character Cantonese terms may need `add-user-word`.
+- LIHKG may sit behind **Cloudflare**; plain `requests` can get blocked. `cloudscraper` is a best-effort fallback.
+- Tokenization is title-only, so slang / multi-character Cantonese terms may need `add-user-word`.
 - Mask quality depends on `assets/mask.png` contrast; dark silhouettes work best.
-- Fonts must be installed locally; missing CJK fonts produce boxes or empty glyphs.
+- Missing CJK fonts produce boxes or empty glyphs.
 
 ## Project layout
 
-```
+```text
 src/lihkg_hot/     # installable package
 assets/            # mask, stopwords, user_dict
 data/              # SQLite / JSONL (gitignored contents)
@@ -139,7 +119,3 @@ outputs/           # generated images (gitignored)
 tests/             # fixture-based tests
 archive/legacy/    # original scripts
 ```
-
-## License
-
-MIT — see [LICENSE](LICENSE).
