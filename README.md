@@ -1,5 +1,10 @@
 # LIHKG Hot Topic Word Cloud
 
+[![CI](https://github.com/Steven-YCH/wordcloud-from-lihkg-hot-topic/actions/workflows/ci.yml/badge.svg)](https://github.com/Steven-YCH/wordcloud-from-lihkg-hot-topic/actions/workflows/ci.yml)
+[![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/downloads/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
+
 Portfolio rewrite of a first-project scraper that turns **LIHKG daily hot threads** into a **Chinese/Cantonese word cloud**.
 
 LIHKG is a popular Hong Kong forum. Thread titles are dense with slang, mixed Chinese/English, and reaction culture — a natural corpus for lightweight NLP demos (tokenization, stopwords, visualization) without needing full post bodies.
